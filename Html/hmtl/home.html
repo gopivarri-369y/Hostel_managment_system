@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/home.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="main">
+        <div class="main-area">
+            <h1>HOSTEL MANAGMENT</h1>
+            <nav class="nav-bar">
+                <ul class="nav-ele">
+                    <li><a href="#home">Home</a></li>
+                    <li> <a href="#about">About</a></li>
+                    <li><a href="#student">Student Registration</a></li>
+                    <li><a href="#login">login</a></li>
+                    <li><a href="#owner">owner_register</a></li>
+                </ul>
+            </nav>
+        </div>
+
+       <div class="main_content">
+        <section id="home">
+            <!-- <h1>enter into the home section</h1> -->
+             
+        </section>
+        <section id="about">
+            <h1>enter into the about section</h1>
+        </section>
+        <section id="student">
+            <h1>enter into the student reg</h1>
+            <div class="reg">
+                <h2>Registration Form</h2>
+                <form action="/submit.js" method="post" class="form">
+                    <label for="fname">First Name :</label>
+                    <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
+                    
+                    <label for="Lname">Last Name :</label>
+                    <input type="text" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required>
+                    
+                    <!-- <label for="Lname">Last Name :</label> -->
+                    <!-- <input type="" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required> -->
+                    
+                    <label >
+                        <label for="gender">Gender: </label>
+                        <select id="gender" name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </label>
+    
+                    <label for="Age">Age :</label>
+                    <input type="number" placeholder="Enter your age" id="age" name="age" class="age" required>
+                    
+                    <label for="email">Email :</label>
+                    <input type="email" placeholder="Enter your email" id="email" name="email" class="email" required>
+                    
+                    <label for="Phone">Phone Number :</label>
+                    <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" required>
+                    
+                    <label for="collage">College :</label>
+                    <input type="text" placeholder="Enter the college name" id="collage" name="collage" class="collage" required>
+    
+                    <button type="submit" class="submit">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="login">
+            <h1>enter into the login</h1>
+            <div class="slogin">
+                <h2>LOGIN FORM</h2>
+                <form class="form" action="/login-owner" method="post">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required>
+                    
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required>
+                    
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </section>
+        <section id="owner">
+            <h1>enter into the owner</h1>
+
+            <div class="reg">
+                <h2>Registration Form</h2>
+                <form action="/submit1.js" method="post" class="form">
+                    <label for="fname">First Name :</label>
+                    <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
+                    
+                    <label for="Lname">Last Name :</label>
+                    <input type="text" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required>
+                    
+    
+                    <label >
+                        <label for="gender">Gender: </label>
+                        <select id="gender" name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </label>
+    
+                    <label for="Age">Age :</label>
+                    <input type="number" placeholder="Enter your age" id="age" name="age" class="age" required>
+    
+                    <label for="email">Email :</label>
+                    <input type="email" placeholder="Enter your email" id="email" name="email" class="email" required>
+                    
+                    <label for="password">PassWord :</label>
+                    <input type="password" placeholder="Enter your password" id="password" name="password" class="password" required>
+    
+                    <label for="Phone">Phone Number :</label>
+                    <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" required>
+                    
+                    <label for="collage">Nearest Collage :</label>
+                    <input type="text" placeholder="Enter the Nearest College name" id="collage" name="collage" class="collage" required>
+                    
+                    <label for="collage">Hostel Name :</label>
+                    <input type="text" placeholder="Enter the Hostel name" id="Hostel" name="Hostel" class="Hostel" required>
+                    
+                    <label >
+                        <label for="rooms_for">Room For: </label>
+                        <select id="rooms_for" name="rooms_for">
+                            <option value="boys">Boys</option>
+                            <option value="girls">Girls</option>
+                            <!-- <option value="other">Other</option> -->
+                        </select>
+                    </label>
+    
+                    <!-- <div class="Provide">
+                        <label for="Provide">Rooms For : </label>
+                        <input type="radio" name="room_for"> Boys
+                        <input type="radio" name="room_for"> Girls
+                    </div> -->
+    
+                    <div class="room">
+                    <label for="Room">Rooms Avaliable : </label>
+                    
+                        <label>
+                            <input type="checkbox" name="room1" value="room1">
+                             2 share 
+                        </label>
+                        <label>
+                            <input type="checkbox" name="room2" value="room2">
+                             3 share 
+                        </label>
+                        <label>
+                            <input type="checkbox" name="room3" value="room3">
+                             4 share 
+                        </label>
+        
+                    </div>
+                    <!-- <label for="message">enter the roomrent if not avaliable write 0</label> -->
+                    <label for="rent_2">Enter the 2 share rent</label>
+                    <input type="number" placeholder="enter the room rent or else type 0" name="rent_2">
+                    <label for="rent_3">Enter the 3 share rent</label>
+                    <input type="number"  placeholder="enter the room rent or else type 0" name="rent_3">
+                    <label for="rent_4">Enter the 4 share rent</label>
+                    <input type="number"  placeholder="enter the room rent or else type 0" name="rent_4">
+    
+    
+    
+                    <button type="submit" class="submit">Submit</button>
+                </form>
+            </div>
+        </section>
+       </div>
+    </div>
+</body>
+</html>

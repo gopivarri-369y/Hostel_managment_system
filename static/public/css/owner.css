@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 170vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    background-color: #f0f0f0; /* Light background color */
+}
+
+.home-button {
+    margin-top: 20px; /* Space above the button */
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Button background color */
+    color: white; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners for button */
+    font-size: 18px; /* Font size */
+}
+
+.password{
+    width: 210px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    height: 100%; /* Full height of the parent */
+    width: 100%; /* Full width */
+}
+
+.reg {
+    margin-top: 150px;
+    width: 570px;
+    background-color: #ffffff; /* White background for form container */
+    padding: 30px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a nice effect */
+}
+
+.form {
+    display: flex;
+    /* margin-top: 120px; */
+    flex-direction: column; /* Stack form elements vertically */
+}
+
+.form label, .form input {
+    margin-bottom: 15px; /* Space between form elements */
+}
+
+.form input {
+    padding: 10px;
+    border: 1px solid #ccc; /* Border around inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+}
+
+.submit {
+    width: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Button background color */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 5px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 10px; /* Space above button */
+}
+
+.submit:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

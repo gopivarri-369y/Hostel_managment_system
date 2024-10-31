@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="../css/slogin.css">
+</head>
+<body>
+    <div class="slogin">
+        <h2>Login Form</h2>
+        <form class="form" action="/login-owner" method="post">
+            <input type="email" name="email" id="email" class="input" placeholder="Enter your email" required>
+            <input type="password" name="password" id="password" class="input" placeholder="Enter your password" required>
+            <button type="submit" class="login-button">Login</button>
+            <a href="/" class="home-button"> back to Home</a>
+        </form>
+    </div>
+    <script>
+        let submit = document.querySelector(".login-button");
+        let home = document.querySelector(".home-button");
+        submit.addEventListener('mouseenter', function() {
+            submit.style.backgroundColor = "red ";  // Change background color to red on hover
+        });
+
+        // Optionally, reset the background color when the mouse leaves
+        submit.addEventListener('mouseleave', function() {
+            submit.style.backgroundColor = "";  // Reset background color when mouse leaves
+        });
+        home.addEventListener('mouseenter', function() {
+            home.style.backgroundColor = "#4FFFB0 ";  // Change background color to red on hover
+        });
+
+        // Optionally, reset the background color when the mouse leaves
+        home.addEventListener('mouseleave', function() {
+            home.style.backgroundColor = "";  // Reset background color when mouse leaves
+        });
+
+    </script>
+</body>
+</html>
