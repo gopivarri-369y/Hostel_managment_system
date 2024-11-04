@@ -94,22 +94,22 @@
         <div class="reg">
             <h2>Updation Form</h2>
             <form action="/updated.js" method="post" class="form">
-                <input type="hidden" name="id" value="<%= owner.id %>">
+                <input type="hidden" name="id" value="<%= owners.id %>">
 
               
                 <label for="Phone">Phone Number :</label>
-                <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" value="<%= owner.phone %>" required>
+                <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" value="<%= owners.phone %>" required>
 
                 <label for="collage">Nearest College :</label>
-                <input type="text" placeholder="Enter the Nearest College name" id="collage" name="collage" class="collage" value="<%= owner.collage %>" required>
+                <input type="text" placeholder="Enter the Nearest College name" id="collage" name="collage" class="collage" value="<%= owners.collage %>" required>
 
                 <label for="Hostel">Hostel Name :</label>
-                <input type="text" placeholder="Enter the Hostel name" id="Hostel" name="hostel" class="Hostel" value="<%= owner.hostel %>" required>
+                <input type="text" placeholder="Enter the Hostel name" id="Hostel" name="hostel" class="Hostel" value="<%= owners.hostel %>" required>
 
                 <label for="rooms_for">Room For: </label>
                 <select id="rooms_for" name="roomsFor">
-                    <option value="boys" <% if (owner.roomsFor === 'boys') { %> selected <% } %>>Boys</option>
-                    <option value="girls" <% if (owner.roomsFor === 'girls') { %> selected <% } %>>Girls</option>
+                    <option value="boys" <% if (owners.roomsFor === 'boys') { %> selected <% } %>>Boys</option>
+                    <option value="girls" <% if (owners.roomsFor === 'girls') { %> selected <% } %>>Girls</option>
                 </select>
                 
 
@@ -117,31 +117,31 @@
                     <label for="Room">Rooms Available:</label>
 
                     <label>
-                        <input type="checkbox" name="room2Share" value="2share" <% if (owner.room2Share) { %> checked <% } %>>
+                        <input type="checkbox" name="room2Share" value="2share" <% if (owners.room2Share) { %> checked <% } %>>
                         2 share
                     </label>
 
                     <label>
                         <input type="checkbox" name="room3Share" 
-                        value="3share"<% if (owner.room3Share) { %> checked <% } %>>
+                        value="3share"<% if (owners.room3Share) { %> checked <% } %>>
                         3 share
                     </label>
 
                     <label>
                         <input type="checkbox" name="room4Share" 
-                        value="4share"<% if (owner.room4Share) { %> checked <% } %>>
+                        value="4share"<% if (owners.room4Share) { %> checked <% } %>>
                         4 share
                     </label>
                 </div>
 
                 <label for="rent_2">Enter the 2 share rent</label>
-                <input type="number" placeholder="Enter the room rent or else type 0" name="rent2Share" value="<%= owner.rent2Share %>">
+                <input type="number" placeholder="Enter the room rent or else type 0" name="rent2Share" value="<%= owners.rent2Share %>">
 
                 <label for="rent_3">Enter the 3 share rent</label>
-                <input type="number" placeholder="Enter the room rent or else type 0" name="rent3Share" value="<%= owner.rent3Share %>">
+                <input type="number" placeholder="Enter the room rent or else type 0" name="rent3Share" value="<%= owners.rent3Share %>">
 
                 <label for="rent_4">Enter the 4 share rent</label>
-                <input type="number" placeholder="Enter the room rent or else type 0" name="rent4Share" value="<%= owner.rent4Share %>">
+                <input type="number" placeholder="Enter the room rent or else type 0" name="rent4Share" value="<%= owners.rent4Share %>">
 
                 <button type="submit" class="submit">Submit</button>
                 <a href="/" class="home-button">Home</a>
@@ -149,11 +149,6 @@
         </div>
     </div>
 
-    <script>
-        // document.querySelector('#rooms_for').value = "<%= owner.roomsFor %>";
-        // let two = document.querySelector('input[name="room2Share"]');
-        // let three = document.querySelector('input[name="room3Share"]');
-        // let four = document.querySelector('input[name="room4Share"]');
-    </script>
+    
 </body>
 </html>

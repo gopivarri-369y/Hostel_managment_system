@@ -4,6 +4,7 @@ const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 const app = express();
 const port = 3300;
+let mailOptions={};
 
 // Middleware to parse incoming request bodies (for form submissions)
 app.use(express.urlencoded({ extended: true }));
@@ -26,9 +27,6 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-
-
-
 // Create a MySQL connection pool
 const pool = mysql.createPool({
     host: 'localhost',
@@ -37,14 +35,6 @@ const pool = mysql.createPool({
     database: 'student_registration'
 });
 
-// Setup nodemailer transporter
-const transporter = nodemailer.createTransport({
-    service: 'gmail', // Use any email service like Gmail, Outlook, etc.
-    auth: {
-        user: 'gopivarri5612v@gmail.com', // Replace with your email
-        pass: 'abcd efgh ijkl mnop' // Replace with your email password or app-specific password if 2FA is enabled
-    }
-});
 
 // Serve the home page at the root URL
 app.get('/', (req, res) => {
@@ -75,7 +65,18 @@ app.get('/register', (req, res) => {
 });
 
 
-
+// sending the mail
+// Setup nodemailer transporter
+const transporter = nodemailer.createTransport({
+    // service: 'gmail', // Use any email service like Gmail, Outlook, etc.
+    host : 'smtp.gmail.com',
+    port : 587,
+    secure : false,
+    auth: {
+        user: 'gopivarri5612v@gmail.com', // Replace with your email
+        pass: 'ixxr bpfq nhwa zgpb' // Replace with your email password or app-specific password if 2FA is enabled
+    }
+});
 
 // Route to handle student registration form submission
 app.post('/submit.js', (req, res) => {
@@ -99,12 +100,12 @@ app.post('/submit.js', (req, res) => {
             console.log('Matching owners:', owners);
 
             // Render the owner.ejs page and pass the owners data
-            res.render('owners.ejs', { owners });
+            res.render('hostel.ejs', { owners });
 
             // Send an email to the matching owner
             if (owners.length > 0) {
                 const owner = owners[0]; // Get the first matching owner
-                const mailOptions = {
+                mailOptions = {
                     from: 'gopivarri5612v@gmail.com', // Your Gmail account
                     to: owner.email, // Send to the owner's email
                     replyTo: email, // Student's email address as "reply-to"
@@ -120,28 +121,26 @@ app.post('/submit.js', (req, res) => {
                 };
 
                 // Send the email
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.error('Error sending email:', error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
+                // transporter.sendMail(mailOptions, (error, info) => {
+                //     if (error) {
+                //         console.error('Error sending email:', error);
+                //     } else {
+                //         console.log('Email sent: ' + info.response);
+                //     }
+                // });
             }
         });
     });
 });
 
-// Route to send an email to the owner
-app.post('/send-email', (req, res) => {
-    const { email, firstname } = req.body; // Ensure you're sending owner details from the form
 
-    const mailOptions = {
-        from: 'your-email@gmail.com', // Replace with your email
-        to: email, // Use the email address of the owner
-        subject: 'Student Interest in Your Hostel',
-        text: `Dear ${firstname},\n\nA student is interested in your hostel. Please check the details.\n\nBest regards,\nYour Company`
-    };
+
+
+// Route to send an email to the owner
+app.get('/send-email.js', (req, res) => {
+    // const { email, firstname } = req.body; // Ensure you're sending owner details from the form
+
+    console.log("the mail options are the ",mailOptions);
 
     // Send the email using the transporter
     transporter.sendMail(mailOptions, (error, info) => {
@@ -157,8 +156,7 @@ app.post('/send-email', (req, res) => {
 
 
 
-// Owner login route
-// Route to handle owner login
+// route to handle the ownerlogin
 app.post('/login-owner', (req, res) => {
     const { email, password } = req.body;
 
@@ -209,7 +207,7 @@ app.post('/updated.js', (req, res) => {
     const { id, phone, collage, hostel, roomsFor, room2Share, room3Share, room4Share, rent2Share, rent3Share, rent4Share } = req.body;
 
     // Convert room share values to boolean
-    const room2 = Boolean(room2Share);
+    const room2 = Boolean(room2Share); 
     const room3 = Boolean(room3Share);
     const room4 = Boolean(room4Share);
 
@@ -250,7 +248,7 @@ app.post('/updated.js', (req, res) => {
 
 
 
-app.post('/login-owner/update',(req,res)=>{
+app.post('/update',(req,res)=>{
     // res.send("what do you wannn update");
     const {ownerId} = req.body;
     console.log([ownerId]);
@@ -263,7 +261,7 @@ app.post('/login-owner/update',(req,res)=>{
         const owner = results[0];
         console.log("the result are the ",results);
         res.render("owners.ejs",{
-            owner:owner
+            owners:owner
         });
         // res.send("hi hello");
     })
@@ -286,6 +284,7 @@ app.get('/logout', (req, res) => {
 // Route to handle owner registration form submission
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
+const { text } = require('body-parser');
 
 // Owner registration route
 app.post('/submit1.js', async (req, res) => {
