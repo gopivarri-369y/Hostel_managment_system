@@ -8,45 +8,56 @@
 </head>
 <body>
     <!-- Home Button at the Top -->
-    <a href="/home" class="home-button">Home</a>
+     <div class="container_total">
+        <div class="header">
+            <a href="/home" class="home-button">Home</a>
+        </div>
+        <!-- Centered Registration Form Container -->
+        <div class="container">
+            <div class="reg">
+                <h2>Registration Form</h2>
+                <form action="/submit.js" method="post" class="form">
+                    <label for="fname">First Name :</label>
+                    <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
+                    
+                    <label for="Lname">Last Name :</label>
+                    <input type="text" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required>
+                    
+                    <!-- <label for="Lname">Last Name :</label> -->
+                    <!-- <input type="" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required> -->
+                    
+                    <div>
+                        <label >
+                            <label for="gender">Gender: </label>
+                            <select id="gender" name="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </label>
+        
+                        <label for="Age">Age :</label>
+                        <input type="number" placeholder="Enter your age" id="age" name="age" class="age" required>
+                    </div>
+                    
+                    <label for="email">Email :</label>
+                    <input type="email" placeholder="Enter your email" id="email" name="email" class="email" required>
+                    
+                    <label for="password">Password : </label>
+                    <input type="password" placeholder="enter your password" id="password" name="password" required>
 
-    <!-- Centered Registration Form Container -->
-    <div class="container">
-        <div class="reg">
-            <h2>Registration Form</h2>
-            <form action="/submit.js" method="post" class="form">
-                <label for="fname">First Name :</label>
-                <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
-                
-                <label for="Lname">Last Name :</label>
-                <input type="text" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required>
-                
-                <!-- <label for="Lname">Last Name :</label> -->
-                <!-- <input type="" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required> -->
-                
-                <label >
-                    <label for="gender">Gender: </label>
-                    <select id="gender" name="gender">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
-                </label>
+                    <label for="Phone">Phone Number :</label>
+                    <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" required>
+                    
+                    <!-- <label for="collage">College :</label>
+                    <input type="text" placeholder="Enter the college name" id="collage" name="collage" class="collage" required>
 
-                <label for="Age">Age :</label>
-                <input type="number" placeholder="Enter your age" id="age" name="age" class="age" required>
-                
-                <label for="email">Email :</label>
-                <input type="email" placeholder="Enter your email" id="email" name="email" class="email" required>
-                
-                <label for="Phone">Phone Number :</label>
-                <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" required>
-                
-                <label for="collage">College :</label>
-                <input type="text" placeholder="Enter the college name" id="collage" name="collage" class="collage" required>
+                    <label for="collage">pincode :</label>
+                    <input type="number" placeholder="Enter pincode" id="pincode" name="pincode" class="pincode" required> -->
 
-                <button type="submit" class="submit">Submit</button>
-            </form>
+                    <button type="submit" class="submit">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

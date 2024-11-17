@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Listings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        nav {
+            background-color: #2c3e50;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #34495e;
+        }
+        .search-bar {
+            padding: 1rem;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .search-bar input {
+            width: 50%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .container {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+        .sidebar {
+            width: 300px;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-right: 1px solid #ddd;
+        }
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+        .filter-section h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #fff;
+        }
+        .hostel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .hostel-card {
+            border: 1px solid #e9ecef;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .hostel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .hostel-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .room-option {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .price-range {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .college-filter, .pincode-filter {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .badge {
+            background-color: #3498db;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 0.25rem 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="user-info">
+            <span style="color: white;">Welcome, <%= firstname %> <%= lastname %></span>
+            <a href="/logout" style="color: white; margin-left: 1rem;">Logout</a>
+        </div>
+    </nav>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Search hostels by college or location..." id="searchInput">
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="filter-section">
+                <h3>College</h3>
+                <select class="college-filter" id="collegeFilter">
+                    <option value="">All Colleges</option>
+                    <% [...new Set(owners.map(owner => owner.college))].forEach(college => { %>
+                        <option value="<%= college %>"><%= college %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h3>Room Type</h3>
+                <div><input type="checkbox" id="twoShare" value="two"><label for="twoShare">Two Share</label></div>
+                <div><input type="checkbox" id="threeShare" value="three"><label for="threeShare">Three Share</label></div>
+                <div><input type="checkbox" id="fourShare" value="four"><label for="fourShare">Four Share</label></div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Price Range</h3>
+                <input type="range" class="price-range" min="0" max="20000" step="500" id="priceRange">
+                <div>Maximum Price: ₹<span id="priceValue">10000</span></div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Pincode</h3>
+                <input type="text" class="pincode-filter" id="pincodeFilter" placeholder="Enter pincode">
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="hostel-grid">
+                <% owners.forEach(owner => { %>
+                    <div class="hostel-card" 
+                         data-college="<%= owner.college %>"
+                         data-pincode="<%= owner.pincode %>"
+                         data-two-rent="<%= owner.tworent %>"
+                         data-three-rent="<%= owner.threerent %>"
+                         data-four-rent="<%= owner.fourrent %>">
+                        <h3><%= owner.hostel_name %></h3>
+                        <p><strong>College:</strong> <%= owner.college %></p>
+                        <p><strong>Pincode:</strong> <%= owner.pincode %></p>
+                        
+                        <% if(owner.twoshare) { %>
+                            <div class="room-option"><span class="badge">Two Share</span>₹<%= owner.tworent %>/month</div>
+                        <% } %>
+                        
+                        <% if(owner.threeshare) { %>
+                            <div class="room-option"><span class="badge">Three Share</span>₹<%= owner.threerent %>/month</div>
+                        <% } %>
+                        
+                        <% if(owner.fourshare) { %>
+                            <div class="room-option"><span class="badge">Four Share</span>₹<%= owner.fourrent %>/month</div>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+        
+        priceRange.addEventListener('input', function() {
+            priceValue.textContent = this.value;
+            filterHostels();
+        });
+
+        function filterHostels() {
+            const maxPrice = parseInt(priceRange.value);
+            const selectedCollege = document.getElementById('collegeFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const pincodeFilter = document.getElementById('pincodeFilter').value;
+            const selectedRoomTypes = {
+                two: document.getElementById('twoShare').checked,
+                three: document.getElementById('threeShare').checked,
+                four: document.getElementById('fourShare').checked
+            };
+
+            document.querySelectorAll('.hostel-card').forEach(card => {
+                const college = card.dataset.college;
+                const pincode = card.dataset.pincode;
+                const twoRent = parseInt(card.dataset.twoRent) || Infinity;
+                const threeRent = parseInt(card.dataset.threeRent) || Infinity;
+                const fourRent = parseInt(card.dataset.fourRent) || Infinity;
+                
+                let matchesFilter = true;
+
+                if (selectedCollege && college !== selectedCollege) matchesFilter = false;
+                if (pincodeFilter && pincode !== pincodeFilter) matchesFilter = false;
+                if (searchTerm && !college.toLowerCase().includes(searchTerm)) matchesFilter = false;
+
+                if (selectedRoomTypes.two && twoRent > maxPrice) matchesFilter = false;
+                if (selectedRoomTypes.three && threeRent > maxPrice) matchesFilter = false;
+                if (selectedRoomTypes.four && fourRent > maxPrice) matchesFilter = false;
+                
+                card.style.display = matchesFilter ? 'block' : 'none';
+            });
+        }
+
+        document.querySelectorAll('#collegeFilter, #searchInput, #pincodeFilter, #twoShare, #threeShare, #fourShare')
+            .forEach(input => input.addEventListener('input', filterHostels));
+    </script>
+</body>
+</html>

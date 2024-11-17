@@ -6,6 +6,15 @@ body, html {
     background-color: #f4f4f4;
 }
 
+.main_content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-content a{
+    margin-left: 70px;
+}
+
 /* Header and Navbar */
 .header_content {
     background-color: #333;

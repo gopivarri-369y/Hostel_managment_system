@@ -74,3 +74,7 @@ form a {
     width: 50%;
     margin-left: 50px;
 }
+
+login-button:hover{
+    background-color: #4FFFB0;
+}

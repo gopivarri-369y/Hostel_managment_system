@@ -82,33 +82,33 @@
             <div class="owner-card">
                 <div class="owner-info">
                     <h3><%= owner.firstname %> <%= owner.lastname %></h3>
-                    <!-- <p><strong>Gender:</strong> <%= owner.gender %></p> -->
-                    <!-- <p><strong>Age:</strong> <%= owner.age %></p> -->
-                    <!-- <p><strong>College:</strong> <%= owner.collage %></p> -->
                     <p><strong>Hostel:</strong> <%= owner.hostel %></p>
                     <p><strong>Rooms for:</strong> <%= owner.roomsFor %></p>
                     <p><strong>Rooms Available:</strong> 
                         <% if(owner.room2Share==1) { %>
-                            <p>2 - share is avaliable </p>
-                            <p><b>Rent</b><%= owner.rent2Share %></p>
-                        </p>
+                            <p>2 - share is available </p>
+                            <p><b>Rent:</b><%= owner.rent2Share %></p>
                         <% } %>
                         <% if(owner.room3Share==1) { %>
-                            <p>3 - share is avaliable </p>
-                            <p><b>Rent</b><%= owner.rent3Share %></p>
-                        </p>
+                            <p>3 - share is available </p>
+                            <p><b>Rent:</b><%= owner.rent3Share %></p>
                         <% } %>
                         <% if(owner.room4Share==1) { %>
-                            <p>4 - share is avaliable </p>
-                            <p><b>Rent</b><%= owner.rent4Share %></p>
-                        </p>
+                            <p>4 - share is available </p>
+                            <p><b>Rent:</b><%= owner.rent4Share %></p>
                         <% } %>
-                    <p><strong>Rooms Available:</strong> <%= owner.roomsFor %></p>
-                    <p><strong>phone :</strong> <%= owner. phone%></p>
+                    </p>
+                    <p><strong>Phone:</strong> <%= owner.phone %></p>
                 </div>
-                <!-- <a class="contact-button">Contact Owner</a> -->
-                <a href="/send-mail.js" class="contact-button">Contact Owner</a>
 
+                <!-- Contact Form to Send Email -->
+                <form action="/send-email.js" method="POST">
+                    <input type="hidden" name="studentEmail" value="<%= email %>">
+                    <input type="hidden" name="studentName" value="<%= firstname %> <%= lastname %>">
+                    <input type="hidden" name="ownerEmail" value="<%= owner.email %>">
+                    <input type="hidden" name="ownerName" value="<%= owner.firstname %> <%= owner.lastname %>">
+                    <button type="submit" class="contact-button">Contact Owner</button>
+                </form>
             </div>
         <% }); %>
     </div>

@@ -10,13 +10,14 @@
 </head>
 <body>
     <!-- Home Button at the Top -->
-    <a href="/" class="home-button">Home</a>
-
-    <!-- Centered Registration Form Container -->
+   <div class="main_content">
+    <div class="home">
+        <a href="/" class="home-button">Home</a>
+    </div>
     <div class="container">
         <div class="reg">
             <h2>Registration Form</h2>
-            <form action="/submit1.js" method="post" class="form">
+            <form action="/ownerreg" method="post" class="form">
                 <label for="fname">First Name :</label>
                 <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
                 
@@ -68,36 +69,36 @@
                     </select>
                 </label>
 
-                <!-- <div class="Provide">
-                    <label for="Provide">Rooms For : </label>
-                    <input type="radio" name="room_for"> Boys
-                    <input type="radio" name="room_for"> Girls
-                </div> -->
-
-                <div class="room">
-                <label for="Room">Rooms Avaliable : </label>
-                
-                    <label>
-                        <input type="checkbox" name="room1" value="room1">
-                         2 share 
-                    </label>
-                    <label>
-                        <input type="checkbox" name="room2" value="room2">
-                         3 share 
-                    </label>
-                    <label>
-                        <input type="checkbox" name="room3" value="room3">
-                         4 share 
-                    </label>
-    
+                <div class="Twoshare">
+                    <label for="twoshare">2 share</label>
+                    <input type="number" placeholder="number of rooms" name="twoshare">
+                    <label for="rent_2"> 2 share rent</label>
+                    <input type="number" placeholder="enter the room rent " name="rent_2">
                 </div>
+
+
+                <div class="threeshare">
+                    <label for="threeshare">3share </label>
+                    <input type="number"  placeholder="number of rooms" name="threeshare">
+                    <label for="rent_3">3 share rent</label>
+                    <input type="number"  placeholder="enter the room rent " name="rent_3">
+                </div>
+                <!-- <div class="room"> -->
+                
+                <div class="fourshare">
+                    <label for= "fourshare" >4 share</label>
+                    <input type="number"  placeholder="number of rooms" name="fourshare">
+                    <label for="rent_4">4 share rent</label>
+                    <input type="number"  placeholder="enter the room rent " name="rent_4">
+                </div>
+                   
+                    
+    
+                <!-- </div> -->
                 <!-- <label for="message">enter the roomrent if not avaliable write 0</label> -->
-                <label for="rent_2">Enter the 2 share rent</label>
-                <input type="number" placeholder="enter the room rent or else type 0" name="rent_2">
-                <label for="rent_3">Enter the 3 share rent</label>
-                <input type="number"  placeholder="enter the room rent or else type 0" name="rent_3">
-                <label for="rent_4">Enter the 4 share rent</label>
-                <input type="number"  placeholder="enter the room rent or else type 0" name="rent_4">
+               
+                
+               
 
 
 
@@ -105,6 +106,10 @@
             </form>
         </div>
     </div>
+   </div>
+
+    <!-- Centered Registration Form Container -->
+    
     <script>
         let submit = document.querySelector('button');
         submit.addEventListener('mouseenter',function(){
@@ -131,11 +136,7 @@
             let password = document.querySelector('#password');
             let type =  password.getAttribute('type') === 'text' ? 'password' : 'text';
             password.setAttribute('type',type);
-        })   
-    
-    
-    
-    
+        })      
     </script>
 </body>
 </html>

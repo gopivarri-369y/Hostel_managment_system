@@ -5,120 +5,248 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Dashboard</title>
     <style>
-        .navbar{
-            display: flex;           
-        }
-        .home{
-            width: 10%;
-            text-decoration: none;
-            list-style: none;
-            font-size: 40px;
-            align-items: center;
-            justify-content: center;
-           
-        }
-        .home-button{
-            /* background-color: red; */
-            text-decoration: none;
-            border: 1px;
-            border-radius: 20%;
-            border-color: black;
-        }
-        .title{
-            width: 90%;
-            /* background-color:blue; */
+        :root {
+            --primary-color: #4CAF50;
+            --primary-hover: #45a049;
+            --danger-color: #dc3545;
+            --danger-hover: #c82333;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --border-color: #ddd;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        button{
-            width: 100px;
-            height: 30px;
-            background-color: #4CAF50;
-            border: 1rem;
-            border-color: red;
-            border-radius: 20px;
-            margin-right: 45px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
         }
-        .button{
-            margin-left: 600px;
-            margin-top: 40px;
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: var(--shadow);
         }
+
+        .home-button {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.6rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
         table {
-            width: 50%;
+            width: 100%;
+            margin: 2rem auto;
             border-collapse: collapse;
-            margin-left: 450px;
+            background-color: white;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 1rem;
             text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--text-color);
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+
+        td {
+            color: #555;
         }
-        h1 {
-            text-align: center;
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease;
+        }
+
+        .value-column {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.button {
+    --color: #0077ff;
+    font-family: inherit;
+    display: inline-block;
+    text-decoration: none;
+    padding-left: 10px;
+    width: 10em;
+    height: 2.6em;
+    line-height: 2.5em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--color);
+    border-radius: 6px;
+    color: var(--color);
+    font-size: 17px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.button::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    width: 150px;
+    height: 200px;
+    background: var(--color);
+    border-radius: 50%;
+    z-index: -1;
+    transition: 0.3s all;
+}
+
+.button:hover {
+    color: white;
+}
+
+.button:hover::before {
+    top: -30px;
+    left: -30px;
+}
+
+.button.update {
+    --color: #0077ff;
+}
+
+.button.delete {
+    --color: #ff3333;
+}
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.8rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.8rem;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                width: 200px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="navbar">
-        <div class="home">
-            <a href="/home" class="home-button">Home</a>
-        </div>
+        <a href="/home" class="home-button">Home</a>
         <div class="title">
-             <h1>Welcome to <%= owner.name %> Dashboard</h1>
+            <h1>Welcome to <%= owner.fname %> <%= owner.lname %> Dashboard</h1>
         </div>
     </div>
-   
-    <table>
-        <thead>
-            <tr>
-                <th>Detail</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>College</strong></td>
-                <td><%= owner.collage %></td>
-            </tr>
-            <tr>
-                <td><strong>Rooms For</strong></td>
-                <td><%= owner.roomsFor %></td>
-            </tr>
-            <tr>
-                <td><strong>Rent for 2-share</strong></td>
-                <td>$<%= owner.rent2Share %></td>
-            </tr>
-            <tr>
-                <td><strong>Rent for 3-share</strong></td>
-                <td>$<%= owner.rent3Share %></td>
-            </tr>
-            <tr>
-                <td><strong>Rent for 4-share</strong></td>
-                <td>$<%= owner.rent4Share %></td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="button">
-        <!-- Update Form -->
-        <form action="/update" method="POST" style="display:inline;">
-            <!-- Hidden input to pass owner ID or other data -->
-            <input type="hidden" name="ownerId" value="<%= owner.id %>">
-            <button type="submit">Update</button>
-        </form>
 
-        <!-- Delete Form -->
-        <form action="/login-owner/delete" method="POST" style="display:inline;">
-            <!-- Hidden input to pass owner ID or other data -->
-            <input type="hidden" name="ownerId" value="<%= owner.id %>">
-            <button type="submit">Delete</button>
-        </form>
+    <div class="dashboard-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Detail</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>College</td>
+                    <td class="value-column"><%= owner.college %></td>
+                </tr>
+                <tr>
+                    <td>Hostel Name</td>
+                    <td class="value-column"><%= owner.hostel_name %></td>
+                </tr>
+                <tr>
+                    <td>Rooms For</td>
+                    <td class="value-column"><%= owner.roomsfor %></td>
+                </tr>
+                <tr>
+                    <td>2-Share Rooms</td>
+                    <td class="value-column"><%= owner.twoshare %></td>
+                </tr>
+                <tr>
+                    <td>3-Share Rooms</td>
+                    <td class="value-column"><%= owner.threeshare %></td>
+                </tr>
+                <tr>
+                    <td>4-Share Rooms</td>
+                    <td class="value-column"><%= owner.fourshare %></td>
+                </tr>
+                <tr>
+                    <td>2-Share Rent</td>
+                    <td class="value-column">$<%= owner.tworent %></td>
+                </tr>
+                <tr>
+                    <td>3-Share Rent</td>
+                    <td class="value-column">$<%= owner.threerent %></td>
+                </tr>
+                <tr>
+                    <td>4-Share Rent</td>
+                    <td class="value-column">$<%= owner.fourrent %></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="button-container">
+            <a href="/update/<%= owner.owner_id %>" class="button update">Update Details</a>
+            <a href="/delete/<%= owner.owner_id %>" class="button delete">Delete Account</a>
+        </div>
     </div>
-    
 </body>
 </html>

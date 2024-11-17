@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+        height: 100%; /* Ensure the body takes up the full height */
+        margin: 0;    /* Remove default margin */
+        }
+
+        .container {
+            display: flex;               
+            flex-direction: column;      
+            justify-content: center;   
+            align-items: center;          
+            height: 100vh;               
+        }
+        .choose{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        a{
+            font-size: 30px;
+            width: 90%;
+            background: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            box-shadow: #cff0ff 0px 10px 10px -5px;
+            border-inline: 2px solid transparent;
+            text-decoration: none;
+        }
+        a:focus {
+            outline: none;
+            border-inline: 2px solid #12b1d1;
+        }
+        a:hover{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="head"><h1>how do you want to register as</h1></div>
+        <div class="choose">
+            <a href="studentreg">student</a>
+            <a href="ownerreg">Owner</a>
+        </div>
+    </div>
+
+    
+    
+</body>
+</html>

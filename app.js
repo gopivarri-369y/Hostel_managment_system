@@ -2,7 +2,13 @@ const express = require('express');
 const path = require('path');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
+const session = require('express-session');
 const app = express();
+// Route to handle owner registration form submission
+const bcrypt = require('bcrypt');
+const { name } = require('ejs');
+const { text } = require('body-parser');
+const methodOverride = require('method-override');
 const port = 3300;
 let mailOptions={};
 
@@ -19,10 +25,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 
-const session = require('express-session');
+
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: 'gopi-varri',
     resave: false,
     saveUninitialized: true,
 }));
@@ -61,8 +67,83 @@ app.get('/login', (req, res) => {
 
     
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'static', 'public', 'html', 'owner_register.html'));
+    res.sendFile(path.join(__dirname, 'static', 'public', 'html', 'register.html'));
 });
+
+app.get('/studentreg',(req,res)=>{
+    res.sendFile(path.join(__dirname,'static', 'public', 'html','student_register.html'))
+})
+app.get('/ownerreg',(req,res)=>{
+    res.sendFile(path.join(__dirname,'static', 'public', 'html','owner_register.html'))
+})
+
+
+
+
+// Route to handle student registration form submission
+// Route to handle student form submission and fetching matching owners
+app.post('/submit.js', async (req, res) => {
+    const { firstname, lastname, gender, age, email, password, phone } = req.body;
+    
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Check if email/phone exists
+    const checkquery = `SELECT * FROM students WHERE email = ? AND phone = ?`;
+    
+    pool.execute(checkquery, [email, phone], (err, existingUsers) => {
+        if (err) {
+            console.error('Error checking existing user:', err);
+            return res.status(500).send('Server Error');
+        }
+
+        if (existingUsers.length > 0) {
+            return res.send("The user already exists");
+        }
+
+        // Insert student data
+        const studentQuery = `INSERT INTO students (firstname, lastname, gender, age, email, phone, password) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        
+        pool.execute(studentQuery, [firstname, lastname, gender, age, email, phone, hashedPassword], 
+            (err, results) => {
+                if (err) {
+                    console.error('Error inserting student:', err);
+                    return res.status(500).send('Server Error');
+                }
+
+                // Fetch all available hostels
+                const hostelQuery = `SELECT * FROM owners_room`;
+                
+                pool.execute(hostelQuery, [], (err, owners) => {
+                    if (err) {
+                        console.error('Error fetching hostels:', err);
+                        return res.status(500).send('Server Error');
+                    }
+
+                    // Set session variables
+                    req.session.loggedin = true;
+                    req.session.email = email;
+                    req.session.firstname = firstname;
+                    req.session.lastname = lastname;
+
+                    // Render the hostel page with all data
+                    res.render('student.ejs', {
+                        owners,
+                        email,
+                        firstname,
+                        lastname
+                    });
+                });
+            }
+        );
+    });
+});
+
+
+
+
+
 
 
 // sending the mail
@@ -78,71 +159,21 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Route to handle student registration form submission
-app.post('/submit.js', (req, res) => {
-    const { firstname, lastname, gender, age, email, phone, collage } = req.body;
-
-    // Insert student data into the students table
-    const studentQuery = `INSERT INTO students (firstname, lastname, gender, age, email, phone, college) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    pool.execute(studentQuery, [firstname, lastname, gender, age, email, phone, collage], (err, results) => {
-        if (err) {
-            console.error('Error inserting student data:', err);
-            return res.status(500).send('Server Error');
-        }
-
-        // Query to find matching owners based on college
-        const ownerQuery = `SELECT * FROM owners_info WHERE collage = ?`;
-        pool.execute(ownerQuery, [collage], (err, owners) => {
-            if (err) {
-                console.error('Error fetching owner data:', err);
-                return res.status(500).send('Server Error');
-            }
-            console.log('Matching owners:', owners);
-
-            // Render the owner.ejs page and pass the owners data
-            res.render('hostel.ejs', { owners });
-
-            // Send an email to the matching owner
-            if (owners.length > 0) {
-                const owner = owners[0]; // Get the first matching owner
-                mailOptions = {
-                    from: 'gopivarri5612v@gmail.com', // Your Gmail account
-                    to: owner.email, // Send to the owner's email
-                    replyTo: email, // Student's email address as "reply-to"
-                    subject: `Student Interest in Your Hostel: ${firstname} ${lastname}`,
-                    text: `Dear ${owner.firstname},\n\nA student named ${firstname} ${lastname} is interested in your hostel. Here are the details:\n\n
-                    Name: ${firstname} ${lastname}\n
-                    Gender: ${gender}\n
-                    Age: ${age}\n
-                    Email: ${email}\n
-                    Phone: ${phone}\n
-                    College: ${collage}\n\n
-                    Please reach out to them for further details.\n\nBest regards,\nYour Company`
-                };
-
-                // Send the email
-                // transporter.sendMail(mailOptions, (error, info) => {
-                //     if (error) {
-                //         console.error('Error sending email:', error);
-                //     } else {
-                //         console.log('Email sent: ' + info.response);
-                //     }
-                // });
-            }
-        });
-    });
-});
-
-
-
-
 // Route to send an email to the owner
-app.get('/send-email.js', (req, res) => {
-    // const { email, firstname } = req.body; // Ensure you're sending owner details from the form
+app.post('/send-email.js', (req, res) => {
+    const { studentEmail, studentName, ownerEmail, ownerName } = req.body;
 
-    console.log("the mail options are the ",mailOptions);
+    const mailOptions = {
+        from: 'your_email@gmail.com', // Your Gmail account
+        to: ownerEmail, // Send to the owner's email
+        replyTo: studentEmail, // Student's email address as "reply-to"
+        subject: `Student Interest in Your Hostel: ${studentName}`,
+        text: `Dear ${ownerName},\n\nA student named ${studentName} is interested in your hostel. Here are the details:\n\n
+        Name: ${studentName}\n
+        Email: ${studentEmail}\n
+        Please reach out to them for further details.\n\nBest regards,\nYour Company`
+    };
 
-    // Send the email using the transporter
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('Error sending email:', error);
@@ -158,10 +189,12 @@ app.get('/send-email.js', (req, res) => {
 
 // route to handle the ownerlogin
 app.post('/login-owner', (req, res) => {
-    const { email, password } = req.body;
+    const { types,email, password } = req.body;
 
     // Find owner by email
-    const query = 'SELECT * FROM owners_info WHERE email = ?';
+    console.log(req.body);
+    console.log(types);
+    const query = `SELECT * FROM ${types} WHERE email = ?`;
     pool.execute(query, [email], async (err, results) => {
         if (err) {
             console.error('Error finding owner:', err);
@@ -169,7 +202,7 @@ app.post('/login-owner', (req, res) => {
         }
 
         if (results.length === 0) {
-            return res.status(401).send('Invalid email or password');
+            return res.status(401).send('Invalid email ');
         }
         console.log("the results are the ",results);
         const owner = results[0];
@@ -178,14 +211,56 @@ app.post('/login-owner', (req, res) => {
         const match = await bcrypt.compare(password, owner.password);
 
         if (!match) {
-            return res.status(401).send('Invalid email or password');
+            return res.status(401).send('Invalid  password');
         }
+        if(types === "owners"){
+            const querylog = `SELECT * FROM owners_room 
+                    INNER JOIN owners ON owners_room.owner_id = owners.owner_id 
+                    WHERE owners.owner_id = ?`;
+            pool.execute(querylog,[owner.owner_id],(err,rooms)=>{
+                if(err){
+                    console.log("sql error ");
+                    res.status(500).send("server error");
+                }
+                console.log(rooms);
+                const owner_rooms = rooms[0];
+                console.log("the owners room are the ",owner_rooms);
+                res.render('owner-dashboard.ejs',{
+                    owner: owner_rooms
+                })
+            })
+        }
+        else if(types == "students"){
+            const hostelQuery = `SELECT * FROM owners_room`;
+                var firstname = results.firstname;
+                var lastname = results.lastname;
+                var email = results.email;
+                pool.execute(hostelQuery, [], (err, owners) => {
+                    if (err) {
+                        console.error('Error fetching hostels:', err);
+                        return res.status(500).send('Server Error');
+                    }
 
+                    // Set session variables
+                    req.session.loggedin = true;
+                    req.session.email = email;
+                    req.session.firstname = firstname;
+                    req.session.lastname = lastname;
+
+                    // Render the hostel page with all data
+                    res.render('student.ejs', {
+                        owners,
+                        email,
+                        firstname,
+                        lastname
+                    });
+                });
+        }
         // Render the page with owner data
-        console.log("th owner details are the ",owner);
-        res.render('owner-dashboard.ejs', {
-            owner:owner
-        });
+        // console.log("th owner details are the ",owner);
+        // res.render('owner-dashboard.ejs', {
+        //     owner:owner
+        // });
     });
 });
 
@@ -203,43 +278,71 @@ app.get('/dashboard', (req, res) => {
 });
 
 
-app.post('/updated.js', (req, res) => {
-    const { id, phone, collage, hostel, roomsFor, room2Share, room3Share, room4Share, rent2Share, rent3Share, rent4Share } = req.body;
 
-    // Convert room share values to boolean
-    const room2 = Boolean(room2Share); 
-    const room3 = Boolean(room3Share);
-    const room4 = Boolean(room4Share);
+// Add method-override middleware
+app.use(methodOverride('_method'));
 
-    // SQL query for updating the specified owner's information
+
+// Your existing route
+app.patch('/updated/:ownerId', (req, res) => {
+    const { 
+        college, 
+        hostel_name, 
+        roomsfor, 
+        twoshare, 
+        threeshare, 
+        fourshare, 
+        tworent, 
+        threerent, 
+        fourrent 
+    } = req.body;
+    
+    const owner_id = req.params.ownerId;
+    
     const query = `
-        UPDATE owners_info 
+        UPDATE owners_room
         SET 
-            phone = ?, 
-            collage = ?, 
-            hostel = ?, 
-            roomsFor = ?, 
-            room2Share = ?, 
-            room3Share = ?,
-            room4Share = ?, 
-            rent2Share = ?, 
-            rent3Share = ?, 
-            rent4Share = ? 
-        WHERE id = ?`;
-
+            college = ?,
+            hostel_name = ?,
+            roomsfor = ?,
+            twoshare = ?,
+            threeshare = ?,
+            fourshare = ?,
+            tworent = ?,
+            threerent = ?,
+            fourrent = ?
+        WHERE owner_id = ?`;
+    
     console.log('Executing query:', query);
-    console.log('With parameters:', [phone, collage, hostel, roomsFor, room2, room3, room4, rent2Share || 0, rent3Share || 0, rent4Share || 0, id]);
-
-    // Execute the query
-    pool.execute(query, [phone, collage, hostel, roomsFor, room2, room3, room4, 
-        rent2Share || 0, rent3Share || 0, rent4Share || 0, id], (err, results) => {
+    
+    pool.execute(query, [
+        college,
+        hostel_name,
+        roomsfor,
+        twoshare,
+        threeshare,
+        fourshare,
+        tworent || 0,
+        threerent || 0,
+        fourrent || 0,
+        owner_id
+    ], (err, results) => {
         if (err) {
             console.error('Error updating owner data:', err);
             return res.status(500).send('Server Error');
         }
-
-        // Send a success response
-        res.send('Owner data updated successfully');
+        
+        const query9 = `SELECT * FROM owners_room WHERE owner_id = ?`;
+        pool.execute(query9, [owner_id], (err, results) => {
+            if (err) {
+                console.log("Error in fetching owner room data");
+                return res.status(500).send("Server error");
+            }
+            let ownerroom = results[0];
+            res.render("owner-dashboard.ejs", {
+                owner: ownerroom
+            });
+        });
     });
 });
 
@@ -247,12 +350,11 @@ app.post('/updated.js', (req, res) => {
 
 
 
-
-app.post('/update',(req,res)=>{
+app.get('/update/:owner_id',(req,res)=>{
     // res.send("what do you wannn update");
-    const {ownerId} = req.body;
-    console.log([ownerId]);
-    const query = `SELECT * FROM owners_info WHERE id = ? `;
+    const ownerId = req.params.owner_id ;
+     console.log(ownerId);
+    const query = `SELECT * FROM owners_room WHERE owner_id = ? `;
     pool.execute(query,[ownerId],async(err,results)=>{
         if (err) {
             console.error('Error update owner data:', err);
@@ -260,9 +362,18 @@ app.post('/update',(req,res)=>{
         }
         const owner = results[0];
         console.log("the result are the ",results);
-        res.render("owners.ejs",{
-            owners:owner
-        });
+        const query10 = `select * from owners where owner_id = ?`;
+        pool.execute(query10,[ownerId],async(err,results)=>{
+            if(err){
+                console.error('Error update owner data:', err);
+                return res.status(500).send('Server Error');
+            }
+            res.render("updation.ejs",{
+                owners:owner,
+                owner:results[0]
+            });
+        })
+       
         // res.send("hi hello");
     })
 
@@ -277,60 +388,99 @@ app.post('/login-owner/delete',(req,res)=>{
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/login-owner');
+    // res.sendfile();
+    res.sendFile(path.join(__dirname, 'static', 'public', 'html', 'student_login.html'));
 });
 
 
-// Route to handle owner registration form submission
-const bcrypt = require('bcrypt');
-const { name } = require('ejs');
-const { text } = require('body-parser');
+
 
 // Owner registration route
-app.post('/submit1.js', async (req, res) => {
+app.post('/ownerreg', async (req, res) => {
     const {
-        firstname, lastname, gender, age, email, phone, collage, Hostel,
-        rooms_for, room1, room2, room3, rent_2, rent_3, rent_4, password
+        firstname, lastname, gender, age, email, password, phone, 
+        collage, pincode, Hostel, rooms_for, 
+        twoshare, rent_2, threeshare, rent_3, fourshare, rent_4
     } = req.body;
-    console.log(req.body);
-    // Hash the owner's password before saving it
+
+    console.log(firstname, lastname, gender, age, email, password, phone, 
+               collage, pincode, Hostel, rooms_for, 
+               twoshare, rent_2, threeshare, rent_3, fourshare, rent_4);
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Check if user exists
+    pool.execute('SELECT * FROM owners WHERE email = ? OR phone = ?', 
+        [email, phone], 
+        (err, existingUsers) => {
+            if (err) {
+                console.error('Error checking existing user:', err);
+                return res.status(500).send('Server Error');
+            }
 
+            if (existingUsers.length > 0) {
+                return res.status(400).send('User already exists');
+            }
 
-    //check the email is present or not 
-    const checkquery = `select * from  owners_info where email = ? or phone = ?`;
-    // SELECT * FROM owners_info WHERE email = ? OR phone = ?
+            // Get the next owner_id
+            pool.execute('SELECT MAX(owner_id) as max_id FROM owners', [], 
+                (err, results) => {
+                    if (err) {
+                        console.error('Error getting max owner_id:', err);
+                        return res.status(500).send('Server Error');
+                    }
 
-    pool.execute(checkquery,[email,phone],(err,result)=>{
-        if(err){
-            console.error('error in the checking of the data:', err);
-            return res.status(500).send('Server Error');
+                    const owner_id = ((results[0]?.max_id || 0) + 1);
+
+                    // Insert into owners table
+                    pool.execute(
+                        `INSERT INTO owners (owner_id, fname, lname, gender, age, email, phone, password) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                        [owner_id, firstname, lastname, gender, age, email, phone, hashedPassword],
+                        (err, ownerResult) => {
+                            if (err) {
+                                console.error('Error inserting owner:', err);
+                                return res.status(500).send('Server Error');
+                            }
+
+                            // Insert into owners_room table
+                            pool.execute(
+                                `INSERT INTO owners_room 
+                                 (college, hostel_name, roomsfor, twoshare, tworent, threeshare, threerent, 
+                                  fourshare, fourrent, pincode, owner_id)
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                                [
+                                    collage, 
+                                    Hostel, 
+                                    rooms_for,
+                                    twoshare || 0,
+                                    rent_2 || 0,
+                                    threeshare || 0,
+                                    rent_3 || 0,
+                                    fourshare || 0,
+                                    rent_4 || 0,
+                                    pincode,
+                                    owner_id
+                                ],
+                                (err, roomResult) => {
+                                    if (err) {
+                                        console.error('Error inserting room details:', err);
+                                        return res.status(500).send('Server Error');
+                                    }
+
+                                    // Render the dashboard
+                                    res.render('owner-dashboard.ejs', {
+                                        owner: req.body
+                                    });
+                                }
+                            );
+                        }
+                    );
+                }
+            );
         }
-        const length = result.length;
-        if(length!=0){
-            res.send("the user already exits");
-        }
-    })
-
-    const query = `INSERT INTO owners_info 
-        (firstname, lastname, gender, age, email, phone, collage, hostel, roomsFor, 
-         room2Share, room3Share, room4Share, rent2Share, rent3Share, rent4Share, password) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
-    pool.execute(query, [
-        firstname, lastname, gender, age, email, phone, collage, Hostel, rooms_for,
-        room1 ? true : false, room2 ? true : false, room3 ? true : false, 
-        rent_2 || 0, rent_3 || 0, rent_4 || 0, hashedPassword
-    ], (err, results) => {
-        if (err) {
-            console.error('Error inserting owner data:', err);
-            return res.status(500).send('Server Error');
-        }
-        res.sendFile(path.join(__dirname,'static','public','html','thankyou.html'));
-        // res.sendFile
-        // D:\myproject\Hostel\static\public\html\thankyou.html
-    });
+    );
 });
 
 

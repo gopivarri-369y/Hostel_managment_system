@@ -1,74 +1,113 @@
-body {
+/* Reset some default styles */
+body, h2, p, label, input, select, button {
     margin: 0;
     padding: 0;
-    height: 100vh; /* Full viewport height */
+    box-sizing: border-box;
+}
+
+/* Set the body background and font styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Container for the whole form */
+.container_total {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center horizontally */
-    background-color: #f0f0f0; /* Light background color */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Header styles */
+.header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 .home-button {
-    margin-top: 20px; /* Space above the button */
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    background-color: #589be2; /* Button background color */
-    color: white; /* Button text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded corners for button */
-    font-size: 18px; /* Font size */
+    text-decoration: none;
+    font-size: 30px;
+    color: #007BFF;
+    transition: color 0.3s;
 }
 
 .home-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    color: #0056b3;
 }
 
+/* Form container styles */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    height: 100%; /* Full height of the parent */
-    width: 100%; /* Full width */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
 }
 
-.reg {
-    width: 570px;
-    background-color: #ffffff; /* White background for form container */
-    padding: 30px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a nice effect */
+/* Form heading */
+.reg h2 {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
+/* Form styles */
 .form {
     display: flex;
-    flex-direction: column; /* Stack form elements vertically */
+    flex-direction: column;
 }
 
-.form label, .form input {
-    margin-bottom: 15px; /* Space between form elements */
+/* Label styles */
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
-.form input {
+/* Input and select styles */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select {
     padding: 10px;
-    border: 1px solid #ccc; /* Border around inputs */
-    border-radius: 5px; /* Rounded corners for inputs */
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border 0.3s;
 }
 
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Button styles */
 .submit {
-    width: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Button background color */
-    color: white; /* Button text color */
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
     border: none;
-    border-radius: 5px; /* Rounded corners for button */
-    cursor: pointer; /* Pointer cursor on hover */
-    margin-top: 10px; /* Space above button */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .submit:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 500px) {
+    .container {
+        width: 90%;
+    }
 }
