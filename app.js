@@ -132,7 +132,8 @@ app.post('/submit.js', async (req, res) => {
                         owners,
                         email,
                         firstname,
-                        lastname
+                        lastname,
+                        email
                     });
                 });
             }
@@ -160,7 +161,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Route to send an email to the owner
-app.post('/send-email.js', (req, res) => {
+app.post('/send-email', (req, res) => {
     const { studentEmail, studentName, ownerEmail, ownerName } = req.body;
 
     const mailOptions = {
@@ -232,15 +233,16 @@ app.post('/login-owner', (req, res) => {
         }
         else if(types == "students"){
             const hostelQuery = `SELECT * FROM owners_room`;
-                var firstname = results.firstname;
-                var lastname = results.lastname;
-                var email = results.email;
+                var firstname = owner.firstname;
+                var lastname = owner.lastname;
+                var email = owner.email;
                 pool.execute(hostelQuery, [], (err, owners) => {
                     if (err) {
                         console.error('Error fetching hostels:', err);
                         return res.status(500).send('Server Error');
                     }
-
+                    console.log(owner);
+                    var student_id = owner.student_id;
                     // Set session variables
                     req.session.loggedin = true;
                     req.session.email = email;
@@ -252,7 +254,9 @@ app.post('/login-owner', (req, res) => {
                         owners,
                         email,
                         firstname,
-                        lastname
+                        lastname,
+                        student_id,
+                        email
                     });
                 });
         }
