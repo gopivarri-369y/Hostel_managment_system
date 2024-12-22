@@ -35,7 +35,7 @@ app.use(session({
 
 // Create a MySQL connection pool
 const pool = mysql.createPool({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
     password: 'Satyaveni@369', // Replace with your MySQL password
     database: 'student_registration'
