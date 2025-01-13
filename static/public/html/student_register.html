@@ -3,62 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
     <title>Registration Form</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+     <style>
+        /* Base styles */
+:root {
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --background-color: #f3f4f6;
+    --card-background: #ffffff;
+    --border-color: #e5e7eb;
+    --focus-ring: rgba(59, 130, 246, 0.5);
+    --transition-speed: 0.2s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-card {
+    background: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform var(--transition-speed);
+}
+
+.form-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+    font-size: 1.875rem;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.home-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: var(--primary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color var(--transition-speed);
+}
+
+.home-button:hover {
+    color: var(--primary-dark);
+}
+
+/* Form sections */
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--background-color);
+    border-radius: 0.5rem;
+}
+
+.form-section h2 {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Form groups */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.form-group input.error {
+    border-color: var(--error-color);
+}
+
+.error-message {
+    display: block;
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Password input */
+.password-input {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    padding: 0.25rem;
+    transition: color var(--transition-speed);
+}
+
+.toggle-password:hover {
+    color: var(--text-color);
+}
+
+.password-strength {
+    display: block;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Submit button */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.submit-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.submit-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.submit-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.button-icon {
+    transition: transform var(--transition-speed);
+}
+
+.submit-button:hover .button-icon {
+    transform: translateX(4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .form-section {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .home-button {
+        align-self: flex-end;
+    }
+}
+
+/* Animations */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+     </style>
 </head>
 <body>
-    <!-- Home Button at the Top -->
-     <div class="container_total">
-        <div class="header">
-            <a href="/home" class="home-button">Home</a>
-        </div>
-        <!-- Centered Registration Form Container -->
-        <div class="container">
-            <div class="reg">
-                <h2>Registration Form</h2>
-                <form action="/submit.js" method="post" class="form">
-                    <label for="fname">First Name :</label>
-                    <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
-                    
-                    <label for="Lname">Last Name :</label>
-                    <input type="text" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required>
-                    
-                    <!-- <label for="Lname">Last Name :</label> -->
-                    <!-- <input type="" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required> -->
-                    
-                    <div>
-                        <label >
-                            <label for="gender">Gender: </label>
+    <div class="container">
+        <div class="form-card">
+            <div class="header">
+                <h1>Registration Form</h1>
+                <button onclick="window.location.href='/home'" class="home-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Home
+                </button>
+            </div>
+            <!-- onsubmit="handleSubmit(event)"  -->
+            <form id="registrationForm"  method="post" action="/student/register">
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input 
+                                type="text" 
+                                id="firstname" 
+                                name="firstname" 
+                                placeholder="Enter your first name"
+                                required
+                            >
+                            <span class="error-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input 
+                                type="text" 
+                                id="lastname" 
+                                name="lastname" 
+                                placeholder="Enter your last name"
+                                required
+                            >
+                            <span class="error-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
                             <select id="gender" name="gender">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
-                        </label>
-        
-                        <label for="Age">Age :</label>
-                        <input type="number" placeholder="Enter your age" id="age" name="age" class="age" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input 
+                                type="number" 
+                                id="age" 
+                                name="age" 
+                                placeholder="Enter your age"
+                                min="18"
+                                max="100"
+                                required
+                            >
+                            <span class="error-message"></span>
+                        </div>
                     </div>
-                    
-                    <label for="email">Email :</label>
-                    <input type="email" placeholder="Enter your email" id="email" name="email" class="email" required>
-                    
-                    <label for="password">Password : </label>
-                    <input type="password" placeholder="enter your password" id="password" name="password" required>
+                </div>
 
-                    <label for="Phone">Phone Number :</label>
-                    <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" required>
-                    
-                    <!-- <label for="collage">College :</label>
-                    <input type="text" placeholder="Enter the college name" id="collage" name="collage" class="collage" required>
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                placeholder="Enter your email"
+                                required
+                            >
+                            <span class="error-message"></span>
+                        </div>
 
-                    <label for="collage">pincode :</label>
-                    <input type="number" placeholder="Enter pincode" id="pincode" name="pincode" class="pincode" required> -->
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password" 
+                                    placeholder="Enter your password"
+                                    required
+                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                    title="Password must be at least 8 characters long and include both letters and numbers"
+                                >
+                                <button type="button" class="toggle-password" onclick="togglePassword()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                            </div>
+                            <span class="error-message"></span>
+                            <span class="password-strength"></span>
+                        </div>
 
-                    <button type="submit" class="submit">Submit</button>
-                </form>
-            </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                placeholder="Enter your phone number"
+                                pattern="[0-9]{10}"
+                                title="Please enter a valid 10-digit phone number"
+                                required
+                            >
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">Create Account</span>
+                        <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+    <script >
+        // Form handling
+function handleSubmit(event) {
+    event.preventDefault();
+    
+    if (!validateForm()) {
+        return;
+    }
+
+    const formData = {
+        firstname: document.getElementById('firstname').value,
+        lastname: document.getElementById('lastname').value,
+        gender: document.getElementById('gender').value,
+        age: document.getElementById('age').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value
+    };
+
+    console.log('Form submitted:', formData);
+    // Here you would typically send the data to your server
+    showSuccessMessage();
+}
+
+// Form validation
+function validateForm() {
+    let isValid = true;
+    const inputs = document.querySelectorAll('input[required]');
+    
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            showError(input, input.validationMessage);
+            isValid = false;
+        } else {
+            clearError(input);
+        }
+    });
+
+    return isValid;
+}
+
+function showError(input, message) {
+    const formGroup = input.closest('.form-group');
+    const errorDisplay = formGroup.querySelector('.error-message');
+    
+    input.classList.add('error');
+    input.classList.add('shake');
+    errorDisplay.textContent = message;
+    
+    // Remove shake animation after it completes
+    setTimeout(() => {
+        input.classList.remove('shake');
+    }, 500);
+}
+
+function clearError(input) {
+    const formGroup = input.closest('.form-group');
+    const errorDisplay = formGroup.querySelector('.error-message');
+    
+    input.classList.remove('error');
+    errorDisplay.textContent = '';
+}
+
+// Password visibility toggle
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.querySelector('.eye-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    } else {
+        passwordInput.type = 'password';
+        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+}
+
+// Password strength checker
+const passwordInput = document.getElementById('password');
+const strengthIndicator = document.querySelector('.password-strength');
+
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+    let message = '';
+
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/)) strength++;
+    if (password.match(/[A-Z]/)) strength++;
+    if (password.match(/[0-9]/)) strength++;
+    if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+    switch (strength) {
+        case 0:
+        case 1:
+            message = 'Very weak';
+            strengthIndicator.style.color = '#ef4444';
+            break;
+        case 2:
+            message = 'Weak';
+            strengthIndicator.style.color = '#f97316';
+            break;
+        case 3:
+            message = 'Medium';
+            strengthIndicator.style.color = '#eab308';
+            break;
+        case 4:
+            message = 'Strong';
+            strengthIndicator.style.color = '#22c55e';
+            break;
+        case 5:
+            message = 'Very strong';
+            strengthIndicator.style.color = '#15803d';
+            break;
+    }
+
+    strengthIndicator.textContent = message ? `Password strength: ${message}` : '';
+});
+
+// Real-time validation
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', () => {
+        if (input.checkValidity()) {
+            clearError(input);
+        }
+    });
+});
+
+// Prevent non-numeric input in number fields
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('wheel', (e) => e.preventDefault());
+    
+    input.addEventListener('keypress', (e) => {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+        }
+    });
+});
+
+// Success message
+function showSuccessMessage() {
+    const form = document.getElementById('registrationForm');
+    const submitButton = form.querySelector('.submit-button');
+    const buttonText = submitButton.querySelector('.button-text');
+    const originalText = buttonText.textContent;
+    
+    submitButton.disabled = true;
+    buttonText.textContent = 'Registration Successful!';
+    submitButton.style.backgroundColor = 'var(--success-color)';
+    
+    setTimeout(() => {
+        submitButton.disabled = false;
+        buttonText.textContent = originalText;
+        submitButton.style.backgroundColor = '';
+        form.reset();
+    }, 2000);
+}
+    </script>
 </body>
 </html>

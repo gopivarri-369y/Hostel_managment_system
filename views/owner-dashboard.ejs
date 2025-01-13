@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -14,43 +15,100 @@
             --text-color: #333;
             --border-color: #ddd;
             --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-color);
-            margin: 0;
-            padding: 0;
             line-height: 1.6;
+            color: var(--text-color);
         }
 
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #2E7D32);
             padding: 1rem 2rem;
             color: white;
             box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .home-button {
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
             text-decoration: none;
             color: white;
-            font-size: 1.2rem;
-            padding: 0.6rem 1rem;
+            padding: 0.5rem 1rem;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .home-button:hover {
-            background-color: var(--primary-hover);
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
-        .title h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 500;
+        .dashboard-header {
+            background: var(--card-bg);
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-title {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
         }
 
         .dashboard-content {
@@ -59,18 +117,20 @@
             padding: 0 1rem;
         }
 
-        table {
-            width: 100%;
-            margin: 2rem auto;
-            border-collapse: collapse;
-            background-color: white;
+        .details-card {
+            background: var(--card-bg);
+            border-radius: 10px;
             box-shadow: var(--shadow);
-            border-radius: 8px;
             overflow: hidden;
         }
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         th, td {
-            padding: 1rem;
+            padding: 1.2rem;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
@@ -85,170 +145,212 @@
             color: #555;
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover {
-            background-color: #f8f9fa;
-            transition: background-color 0.2s ease;
-        }
-
         .value-column {
             font-weight: 500;
             color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .value-column i {
+            color: var(--primary-color);
         }
 
         .button-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 2rem 0;
-}
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
 
-.button {
-    --color: #0077ff;
-    font-family: inherit;
-    display: inline-block;
-    text-decoration: none;
-    padding-left: 10px;
-    width: 10em;
-    height: 2.6em;
-    line-height: 2.5em;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid var(--color);
-    border-radius: 6px;
-    color: var(--color);
-    font-size: 17px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
+        .button {
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid;
+        }
 
-.button::before {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 100%;
-    width: 150px;
-    height: 200px;
-    background: var(--color);
-    border-radius: 50%;
-    z-index: -1;
-    transition: 0.3s all;
-}
+        .button.update {
+            color: #0077ff;
+            border-color: #0077ff;
+            background: transparent;
+        }
 
-.button:hover {
-    color: white;
-}
+        .button.delete {
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+            background: transparent;
+        }
 
-.button:hover::before {
-    top: -30px;
-    left: -30px;
-}
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
-.button.update {
-    --color: #0077ff;
-}
+        .button.update:hover {
+            background: #0077ff;
+            color: white;
+        }
 
-.button.delete {
-    --color: #ff3333;
-}
+        .button.delete:hover {
+            background: var(--danger-color);
+            color: white;
+        }
 
+        .room-badge {
+            background: #e8f5e9;
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .price-badge {
+            background: #e3f2fd;
+            color: #0077ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
 
         @media (max-width: 768px) {
-            .navbar {
-                padding: 0.8rem 1rem;
+            .nav-content {
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 1rem;
             }
 
-            table {
-                font-size: 0.9rem;
-            }
-
-            th, td {
-                padding: 0.8rem;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
             .button-container {
                 flex-direction: column;
-                align-items: center;
+                align-items: stretch;
+                padding: 0 1rem;
             }
 
             .button {
-                width: 200px;
                 text-align: center;
+                justify-content: center;
+            }
+
+            th, td {
+                padding: 1rem 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="/home" class="home-button">Home</a>
-        <div class="title">
-            <h1>Welcome to <%= owner.fname %> <%= owner.lname %> Dashboard</h1>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="/home" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="/settings" class="nav-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </div>
+            <div class="title">
+                <h1><i class="fas fa-user-circle"></i> Welcome, <%= owner.firstname %> <%= owner.lastname %></h1>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-header">
+        <h2><i class="fas fa-chart-bar"></i> Dashboard Overview</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Rooms</div>
+                <div class="stat-value">
+                    <%= parseInt(owner.twoshare || 0) + parseInt(owner.threeshare || 0) + parseInt(owner.fourshare || 0) %>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Available For</div>
+                <div class="stat-value"><%= owner.rooms_for %></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Hostel Name</div>
+                <div class="stat-value" style="font-size: 1.4rem;"><%= owner.Hostel %></div>
+            </div>
         </div>
     </div>
 
     <div class="dashboard-content">
-        <table>
-            <thead>
-                <tr>
-                    <th>Detail</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>College</td>
-                    <td class="value-column"><%= owner.college %></td>
-                </tr>
-                <tr>
-                    <td>Hostel Name</td>
-                    <td class="value-column"><%= owner.hostel_name %></td>
-                </tr>
-                <tr>
-                    <td>Rooms For</td>
-                    <td class="value-column"><%= owner.roomsfor %></td>
-                </tr>
-                <tr>
-                    <td>2-Share Rooms</td>
-                    <td class="value-column"><%= owner.twoshare %></td>
-                </tr>
-                <tr>
-                    <td>3-Share Rooms</td>
-                    <td class="value-column"><%= owner.threeshare %></td>
-                </tr>
-                <tr>
-                    <td>4-Share Rooms</td>
-                    <td class="value-column"><%= owner.fourshare %></td>
-                </tr>
-                <tr>
-                    <td>2-Share Rent</td>
-                    <td class="value-column">$<%= owner.tworent %></td>
-                </tr>
-                <tr>
-                    <td>3-Share Rent</td>
-                    <td class="value-column">$<%= owner.threerent %></td>
-                </tr>
-                <tr>
-                    <td>4-Share Rent</td>
-                    <td class="value-column">$<%= owner.fourrent %></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="details-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-info-circle"></i> Detail</th>
+                        <th><i class="fas fa-database"></i> Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-university"></i> College</td>
+                        <td class="value-column"><%= owner.collage %></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-building"></i> Hostel Name</td>
+                        <td class="value-column"><%= owner.Hostel %></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-venus-mars"></i> Rooms For</td>
+                        <td class="value-column"><%= owner.rooms_for %></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-door-open"></i> Room Configuration</td>
+                        <td class="value-column">
+                            <% if(owner.twoshare) { %>
+                                <span class="room-badge"><i class="fas fa-users"></i> <%= owner.twoshare %> Two-Share</span>
+                            <% } %>
+                            <% if(owner.threeshare) { %>
+                                <span class="room-badge"><i class="fas fa-users"></i> <%= owner.threeshare %> Three-Share</span>
+                            <% } %>
+                            <% if(owner.fourshare) { %>
+                                <span class="room-badge"><i class="fas fa-users"></i> <%= owner.fourshare %> Four-Share</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-rupee-sign"></i> Room Rates</td>
+                        <td class="value-column">
+                            <% if(owner.twoshare) { %>
+                                <span class="price-badge">Two-Share: ₹<%= owner.rent_2 %>/month</span>
+                            <% } %>
+                            <% if(owner.threeshare) { %>
+                                <span class="price-badge">Three-Share: ₹<%= owner.rent_3 %>/month</span>
+                            <% } %>
+                            <% if(owner.fourshare) { %>
+                                <span class="price-badge">Four-Share: ₹<%= owner.rent_4 %>/month</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="button-container">
-            <a href="/update/<%= owner.owner_id %>" class="button update">Update Details</a>
-            <a href="/delete/<%= owner.owner_id %>" class="button delete">Delete Account</a>
+            <a href="/update/<%= owner.owner_id %>" class="button update">
+                <i class="fas fa-edit"></i> Update Details
+            </a>
+            <a href="/delete/<%= owner.owner_id %>" class="button delete">
+                <i class="fas fa-trash-alt"></i> Delete Account
+            </a>
         </div>
     </div>
-    
 </body>
-
 </html>

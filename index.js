@@ -82,7 +82,7 @@ app.get('/ownerreg',(req,res)=>{
 
 // Route to handle student registration form submission
 // Route to handle student form submission and fetching matching owners
-app.post('/submit.js', async (req, res) => {
+app.post('/student/register', async (req, res) => {
     const { firstname, lastname, gender, age, email, password, phone } = req.body;
     
     // Hash password
@@ -400,7 +400,7 @@ app.get('/logout', (req, res) => {
 
 
 // Owner registration route
-app.post('/ownerreg', async (req, res) => {
+app.post('/owner/register', async (req, res) => {
     const {
         firstname, lastname, gender, age, email, password, phone, 
         collage, pincode, Hostel, rooms_for, 

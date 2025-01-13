@@ -3,141 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/owner.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Hostel Registration</title>
+    <style>
+        /* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <title>Registration Form</title>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.form-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header h1 {
+    font-size: 1.875rem;
+    color: #1a365d;
+    font-weight: 700;
+}
+
+.home-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: #3b82f6;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.home-button:hover {
+    color: #1d4ed8;
+}
+
+/* Form sections */
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+}
+
+.form-section h2 {
+    font-size: 1.25rem;
+    color: #1a365d;
+    margin-bottom: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Form groups */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Password input */
+.password-input {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 0.25rem;
+}
+
+.toggle-password:hover {
+    color: #475569;
+}
+
+/* Room type sections */
+.room-type {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.room-type h3 {
+    font-size: 1.125rem;
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+
+/* Submit button */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.submit-button {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #2563eb;
+}
+
+.submit-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .form-section {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .home-button {
+        align-self: flex-end;
+    }
+}
+    </style>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 <body>
-    <!-- Home Button at the Top -->
-   <div class="main_content">
-    <div class="home">
-        <a href="/" class="home-button">Home</a>
-    </div>
     <div class="container">
-        <div class="reg">
-            <h2>Registration Form</h2>
-            <form action="/ownerreg" method="post" class="form">
-                <label for="fname">First Name :</label>
-                <input type="text" placeholder="Enter your first name" id="FName" name="firstname" class="FName" required>
-                
-                <label for="Lname">Last Name :</label>
-                <input type="text" placeholder="Enter your last name" id="LName" name="lastname" class="LName" required>
-                
+        <div class="form-card">
+            <div class="header">
+                <h1>Registration Form</h1>
+                <button onclick="window.location.href='/'" class="home-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Home
+                </button>
+            </div>
 
-                <label >
-                    <label for="gender">Gender: </label>
-                    <select id="gender" name="gender">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
-                </label>
+            <form id="registrationForm" method="post" action="/owner/register">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
+                        </div>
 
-                <label for="Age">Age :</label>
-                <input type="number" placeholder="Enter your age" id="age" name="age" class="age" required>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+                        </div>
 
-                <label for="email">Email :</label>
-                <input type="email" placeholder="Enter your email" id="email" name="email" class="email" required>
-                
-                <!-- <label for="password">PassWord :</label>
-                <input type="password" placeholder="Enter your password" id="password" name="password" class="password" required> -->
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
 
-                <div>
-                    <label for="password">PassWord :</label>
-                    <input type="password" placeholder="Enter your password" id="password" name="password" class="password"  required>
-                    <button class="password-icon" ><i class="fa fa-eye eye-icon" id="togglePassword"></i></button>               
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" placeholder="Enter your age" required>
+                        </div>
+                    </div>
                 </div>
 
-                <label for="Phone">Phone Number :</label>
-                <input type="number" placeholder="Enter your phone number" id="Phone" name="phone" class="Phone" required>
-                
-                <label for="collage">Nearest Collage :</label>
-                <input type="text" placeholder="Enter the Nearest College name" id="collage" name="collage" class="collage" required>
-                <label for="pincode">Enter your pincode:</label>
-                <input type="number" placeholder="Enter the pincode" id="pincode" name="pincode" class="pincode" required>
-                
-                <label for="Hostel">Hostel Name :</label>
-                <input type="text" placeholder="Enter the Hostel name" id="Hostel" name="Hostel" class="Hostel" required>
-                
-                <label >
-                    <label for="rooms_for">Room For: </label>
-                    <select id="rooms_for" name="rooms_for">
-                        <option value="boys">Boys</option>
-                        <option value="girls">Girls</option>
-                        <!-- <option value="other">Other</option> -->
-                    </select>
-                </label>
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
 
-                <div class="Twoshare">
-                    <label for="twoshare">2 share</label>
-                    <input type="number" placeholder="number of rooms" name="twoshare">
-                    <label for="rent_2"> 2 share rent</label>
-                    <input type="number" placeholder="enter the room rent " name="rent_2">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-input">
+                                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Hostel Information -->
+                <div class="form-section">
+                    <h2>Hostel Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="college">Nearest College</label>
+                            <input type="text" id="collage" name="collage" placeholder="Enter the nearest college name" required>
+                        </div>
 
-                <div class="threeshare">
-                    <label for="threeshare">3share </label>
-                    <input type="number"  placeholder="number of rooms" name="threeshare">
-                    <label for="rent_3">3 share rent</label>
-                    <input type="number"  placeholder="enter the room rent " name="rent_3">
+                        <div class="form-group">
+                            <label for="pincode">Pincode</label>
+                            <input type="number" id="pincode" name="pincode" placeholder="Enter the pincode" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hostelName">Hostel Name</label>
+                            <input type="text" id="hostelName" name="Hostel" placeholder="Enter the hostel name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomsFor">Rooms For</label>
+                            <select id="roomsFor" name="rooms_for">
+                                <option value="boys">Boys</option>
+                                <option value="girls">Girls</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <!-- <div class="room"> -->
-                
-                <div class="fourshare">
-                    <label for= "fourshare" >4 share</label>
-                    <input type="number"  placeholder="number of rooms" name="fourshare">
-                    <label for="rent_4">4 share rent</label>
-                    <input type="number"  placeholder="enter the room rent " name="rent_4">
+
+                <!-- Room Details -->
+                <div class="form-section">
+                    <h2>Room Details</h2>
+                    <div class="room-grid">
+                        <!-- 2 Share -->
+                        <div class="room-type">
+                            <h3>2 Share Rooms</h3>
+                            <div class="form-group">
+                                <label for="twoShareRooms">Number of Rooms</label>
+                                <input type="number" id="twoShareRooms" name="twoshare" placeholder="Number of rooms">
+                            </div>
+                            <div class="form-group">
+                                <label for="threeShareRooms">Rent per Room</label>
+                                <input type="number" id="twoShareRent" name="rent_2" placeholder="Enter room rent">
+                            </div>
+                        </div>
+
+                        <!-- 3 Share -->
+                        <div class="room-type">
+                            <h3>3 Share Rooms</h3>
+                            <div class="form-group">
+                                <label for="threeShareRooms">Number of Rooms</label>
+                                <input type="number" id="threeShareRooms" name="threeshare" placeholder="Number of rooms">
+                            </div>
+                            <div class="form-group">
+                                <label for="threeShareRent">Rent per Room</label>
+                                <input type="number" id="threeShareRent" name="rent_3" placeholder="Enter room rent">
+                            </div>
+                        </div>
+
+                        <!-- 4 Share -->
+                        <div class="room-type">
+                            <h3>4 Share Rooms</h3>
+                            <div class="form-group">
+                                <label for="fourShareRooms">Number of Rooms</label>
+                                <input type="number" id="fourShareRooms" name="fourshare" placeholder="Number of rooms">
+                            </div>
+                            <div class="form-group">
+                                <label for="fourShareRent">Rent per Room</label>
+                                <input type="number" id="fourShareRent" name="rent_4" placeholder="Enter room rent">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                   
-                    
-    
-                <!-- </div> -->
-                <!-- <label for="message">enter the roomrent if not avaliable write 0</label> -->
-               
-                
-               
 
-
-
-                <button type="submit" class="submit">Submit</button>
+                <div class="form-actions">
+                    <button type="submit" class="submit-button">Submit Registration</button>
+                </div>
             </form>
         </div>
     </div>
-   </div>
-
-    <!-- Centered Registration Form Container -->
+    <script >
+        // Form handling
+function handleSubmit(event) {
+    event.preventDefault();
     
-    <script>
-        let submit = document.querySelector('button');
-        submit.addEventListener('mouseenter',function(){
-            submit.style.backgroundColor = "#0056b3";
-        });
-        submit.addEventListener('mouseleave',function(){
-            submit.style.backgroundColor="";
-        })
-        let homebutton = document.querySelector('.home-button');
-        homebutton.addEventListener('mouseenter',function(){
-            homebutton.style.backgroundColor = "#0056b3";
-        });
-        homebutton.addEventListener('mouseleave',function(){
-            homebutton.style.backgroundColor="";
-        })
+    const formData = {
+        firstname: document.getElementById('firstname').value,
+        lastname: document.getElementById('lastname').value,
+        gender: document.getElementById('gender').value,
+        age: document.getElementById('age').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value,
+        college: document.getElementById('college').value,
+        pincode: document.getElementById('pincode').value,
+        hostelName: document.getElementById('hostelName').value,
+        roomsFor: document.getElementById('roomsFor').value,
+        twoShare: {
+            rooms: document.getElementById('twoShareRooms').value,
+            rent: document.getElementById('twoShareRent').value
+        },
+        threeShare: {
+            rooms: document.getElementById('threeShareRooms').value,
+            rent: document.getElementById('threeShareRent').value
+        },
+        fourShare: {
+            rooms: document.getElementById('fourShareRooms').value,
+            rent: document.getElementById('fourShareRent').value
+        }
+    };
 
-        const passicon = document.querySelector('.password-icon');
-        passicon.addEventListener('mouseenter',function(){
-            let password = document.querySelector('#password');
-            let type =  password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type',type);
-        })   
-        passicon.addEventListener('mouseleave',function(){
-            let password = document.querySelector('#password');
-            let type =  password.getAttribute('type') === 'text' ? 'password' : 'text';
-            password.setAttribute('type',type);
-        })      
+    console.log('Form submitted:', formData);
+    // Here you can add your form submission logic (e.g., API call)
+}
+
+// Password visibility toggle
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.querySelector('.eye-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    } else {
+        passwordInput.type = 'password';
+        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+}
+
+// Form validation
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('invalid', (event) => {
+        event.preventDefault();
+        input.classList.add('error');
+    });
+
+    input.addEventListener('input', () => {
+        input.classList.remove('error');
+    });
+});
+
+// Enhance number inputs
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('wheel', (e) => e.preventDefault());
+    
+    input.addEventListener('keypress', (e) => {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+        }
+    });
+});
     </script>
 </body>
 </html>
-<!-- home-button -->
