@@ -34,12 +34,35 @@ app.use(session({
 }));
 
 // Create a MySQL connection pool
+// const pool = mysql.createPool({
+//     host: '127.0.0.1',
+//     user: 'root',
+//     password: 'Satyaveni@369', // Replace with your MySQL password
+//     database: 'student_registration'
+// });
+
+
 const pool = mysql.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'Satyaveni@369', // Replace with your MySQL password
-    database: 'student_registration'
+    host: 'b2u9l9gde8vkzwhyjpny-mysql.services.clever-cloud.com', // Replace with Clever Cloud host
+    user: 'upjtudeac0mhftre',   // Replace with Clever Cloud username
+    password: 'upjtudeac0mhftre', // Replace with Clever Cloud password
+    database: 'b2u9l9gde8vkzwhyjpny', // Replace with Clever Cloud database
+    port: 3306, // Usually 3306
+    waitForConnections: true,
+    connectionLimit: 5,
+    queueLimit: 0
 });
+
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error('❌ MySQL Connection Failed:', err);
+    } else {
+        console.log('✅ Connected to Clever Cloud MySQL!');
+        connection.release();
+    }
+});
+
+module.exports = pool;
 
 
 // Serve the home page at the root URL
