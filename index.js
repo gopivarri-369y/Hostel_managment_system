@@ -42,14 +42,16 @@ app.use(session({
 // });
 
 
+// const mysql = require('mysql2');
+
 const pool = mysql.createPool({
-    host: 'b2u9l9gde8vkzwhyjpny-mysql.services.clever-cloud.com', // Replace with Clever Cloud host
-    user: 'upjtudeac0mhftre',   // Replace with Clever Cloud username
-    password: 'upjtudeac0mhftre', // Replace with Clever Cloud password
-    database: 'b2u9l9gde8vkzwhyjpny', // Replace with Clever Cloud database
-    port: 3306, // Usually 3306
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306, 
     waitForConnections: true,
-    connectionLimit: 5,
+    connectionLimit: 10,
     queueLimit: 0
 });
 
@@ -63,6 +65,7 @@ pool.getConnection((err, connection) => {
 });
 
 module.exports = pool;
+
 
 
 // Serve the home page at the root URL
