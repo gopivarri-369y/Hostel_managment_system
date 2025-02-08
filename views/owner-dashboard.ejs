@@ -264,7 +264,7 @@
                 </a>
             </div>
             <div class="title">
-                <h1><i class="fas fa-user-circle"></i> Welcome, <%= owner.firstname %> <%= owner.lastname %></h1>
+                <h1><i class="fas fa-user-circle"></i> Welcome, <%= owner.fname %> <%= owner.lname %></h1>
             </div>
         </div>
     </nav>
@@ -280,11 +280,11 @@
             </div>
             <div class="stat-card">
                 <div class="stat-title">Available For</div>
-                <div class="stat-value"><%= owner.rooms_for %></div>
+                <div class="stat-value"><%= owner.roomsfor %></div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">Hostel Name</div>
-                <div class="stat-value" style="font-size: 1.4rem;"><%= owner.Hostel %></div>
+                <div class="stat-value" style="font-size: 1.4rem;"><%= owner.hostel_name %></div>
             </div>
         </div>
     </div>
@@ -301,15 +301,15 @@
                 <tbody>
                     <tr>
                         <td><i class="fas fa-university"></i> College</td>
-                        <td class="value-column"><%= owner.collage %></td>
+                        <td class="value-column"><%= owner.college %></td>
                     </tr>
                     <tr>
                         <td><i class="fas fa-building"></i> Hostel Name</td>
-                        <td class="value-column"><%= owner.Hostel %></td>
+                        <td class="value-column"><%= owner.hostel_name %></td>
                     </tr>
                     <tr>
                         <td><i class="fas fa-venus-mars"></i> Rooms For</td>
-                        <td class="value-column"><%= owner.rooms_for %></td>
+                        <td class="value-column"><%= owner.roomsfor %></td>
                     </tr>
                     <tr>
                         <td><i class="fas fa-door-open"></i> Room Configuration</td>
@@ -329,13 +329,13 @@
                         <td><i class="fas fa-rupee-sign"></i> Room Rates</td>
                         <td class="value-column">
                             <% if(owner.twoshare) { %>
-                                <span class="price-badge">Two-Share: ₹<%= owner.rent_2 %>/month</span>
+                                <span class="price-badge">Two-Share: ₹<%= owner.tworent %>/month</span>
                             <% } %>
                             <% if(owner.threeshare) { %>
-                                <span class="price-badge">Three-Share: ₹<%= owner.rent_3 %>/month</span>
+                                <span class="price-badge">Three-Share: ₹<%= owner.threerent %>/month</span>
                             <% } %>
                             <% if(owner.fourshare) { %>
-                                <span class="price-badge">Four-Share: ₹<%= owner.rent_4 %>/month</span>
+                                <span class="price-badge">Four-Share: ₹<%= owner.fourrent %>/month</span>
                             <% } %>
                         </td>
                     </tr>
