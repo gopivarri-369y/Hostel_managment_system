@@ -28,27 +28,27 @@ app.use(session({
 app.use(methodOverride('_method'));
 
 // PostgreSQL connection setup
-const pool = new Pool({
-    user: 'postgres',         // e.g., 'postgres'
-    host: '127.0.0.1',        // use 127.0.0.1 instead of localhost
-    database: 'postgres',     // the database name you created
-    password: 'Neelima@369',   // your PostgreSQL password
-    port: 3369,               // your PostgreSQL port (change if needed)
-    // ssl: { rejectUnauthorized: false } // Required for Render's SSL connections, adjust as needed
-});
-
-
 // const pool = new Pool({
-//     user: process.env.DB_USER,
-//     host: process.env.DB_HOST,
-//     database: process.env.DB_NAME,
-//     password: process.env.DB_PASSWORD,
-//     port: process.env.DB_PORT || 5432,
-//     // Render often requires SSL; if needed, include these options:
-//     ssl: {
-//       rejectUnauthorized: false,
-//     },
+//     user: 'postgres',         // e.g., 'postgres'
+//     host: '127.0.0.1',        // use 127.0.0.1 instead of localhost
+//     database: 'postgres',     // the database name you created
+//     password: 'Neelima@369',   // your PostgreSQL password
+//     port: 3369,               // your PostgreSQL port (change if needed)
+//     // ssl: { rejectUnauthorized: false } // Required for Render's SSL connections, adjust as needed
 // });
+
+
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT || 5432,
+    // Render often requires SSL; if needed, include these options:
+    ssl: {
+      rejectUnauthorized: false,
+    },
+});
 
 pool.connect((err, client, release) => {
     if (err) {
