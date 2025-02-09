@@ -264,7 +264,7 @@
                 </a>
             </div>
             <div class="title">
-                <h1><i class="fas fa-user-circle"></i> Welcome, <%= owner.fname %> <%= owner.lname %></h1>
+                <h1><i class="fas fa-user-circle"></i> Welcome, <%= owner.firstname %> <%= owner.lastname %></h1>
             </div>
         </div>
     </nav>
@@ -280,7 +280,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-title">Available For</div>
-                <div class="stat-value"><%= owner.roomsfor %></div>
+                <div class="stat-value"><%= owner.rooms_for %></div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">Hostel Name</div>
@@ -309,7 +309,7 @@
                     </tr>
                     <tr>
                         <td><i class="fas fa-venus-mars"></i> Rooms For</td>
-                        <td class="value-column"><%= owner.roomsfor %></td>
+                        <td class="value-column"><%= owner.rooms_for %></td>
                     </tr>
                     <tr>
                         <td><i class="fas fa-door-open"></i> Room Configuration</td>
