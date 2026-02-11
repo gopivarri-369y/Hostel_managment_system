@@ -1,0 +1,7 @@
+node_modules
+index.env
+.env
+.env.*
+*.log
+.git
+testinghtml

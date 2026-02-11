@@ -1,13 +1,24 @@
 {
+  "name": "hostel-management-system",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "build": "node -e \"require('fs').cpSync('static/public', 'public', {recursive: true})\""
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.20.0",
     "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
     "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
     "mysql2": "^3.11.2",
-    "node": "^22.8.0",
     "nodemailer": "^6.9.15",
     "pg": "^8.13.1"
   }

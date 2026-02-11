@@ -1,1 +1,6 @@
 node_modules/
+public/
+index.env
+.env
+.env.*
+*.log
